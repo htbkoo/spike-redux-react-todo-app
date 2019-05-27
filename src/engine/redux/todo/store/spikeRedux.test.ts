@@ -12,7 +12,7 @@ describe("redux spike", function () {
     }
 
     enum ActionType {
-        ADD_ITEM, CLEAR_ITEM
+        ADD_ITEM, CLEAR_ITEMS
     }
 
     interface AddItemAction {
@@ -21,7 +21,7 @@ describe("redux spike", function () {
     }
 
     interface ClearItemsAction {
-        type: ActionType.CLEAR_ITEM
+        type: ActionType.CLEAR_ITEMS
     }
 
     type Action =
@@ -35,10 +35,21 @@ describe("redux spike", function () {
         }
     }
 
+    function clearItems(): ClearItemsAction {
+        return {
+            type: ActionType.CLEAR_ITEMS
+        };
+    }
+
+    const EMPTY_STATE = {items: []};
+
     const reducer = function (state, action: Action): State {
         switch (action.type) {
             case ActionType.ADD_ITEM: {
                 return {items: [...state.items, action.item]}
+            }
+            case ActionType.CLEAR_ITEMS: {
+                return EMPTY_STATE;
             }
             default: {
                 return state;
@@ -56,7 +67,17 @@ describe("redux spike", function () {
 
         // when
         const store = createStore(reducer, initState);
+
+        // then
         expect(store.getState()).toEqual(initState);
+    });
+
+    it("should add item", () => {
+        // given
+        const initState: State = {items: []};
+
+        // when
+        const store = createStore(reducer, initState);
 
         // then
         store.dispatch(addItem("text"));
@@ -65,5 +86,23 @@ describe("redux spike", function () {
                 {message: "text"}
             ]
         });
+    });
+
+    it("should remove all itmes upon Action.CLEAR_ITEMS", () => {
+        // given
+        const initState: State = {
+            items: [
+                {message: "some item"},
+                {message: "another item"},
+            ]
+        };
+
+        // when
+        const store = createStore(reducer, initState);
+        expect(store.getState()).toEqual(initState);
+
+        // then
+        store.dispatch(clearItems());
+        expect(store.getState()).toEqual({items: []});
     });
 });
