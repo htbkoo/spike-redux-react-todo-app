@@ -40,7 +40,14 @@ describe("redux spike", function () {
         };
 
         const reducer = function (state = initState, action: Action): State {
-            return state;
+            switch (action.type) {
+                case ActionType.ADD_ITEM: {
+                    return {items: [...state.items, action.item]}
+                }
+                default: {
+                    return state;
+                }
+            }
         };
 
         // when
