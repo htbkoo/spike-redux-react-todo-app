@@ -3,12 +3,17 @@ import {createStore} from "redux";
 describe("redux spike", function () {
     // PROD
 
+    type ItemId = string;
+
     interface Item {
         message: string
     }
 
     interface State {
-        items: Item[]
+        items: ItemId[],
+        itemById: {
+            [id: string]: Item
+        }
     }
 
     enum ActionType {
@@ -17,6 +22,7 @@ describe("redux spike", function () {
 
     interface AddItemAction {
         type: ActionType.ADD_ITEM,
+        id: ItemId,
         item: Item
     }
 
@@ -28,9 +34,10 @@ describe("redux spike", function () {
         | AddItemAction
         | ClearItemsAction;
 
-    function addItem(message: string): AddItemAction {
+    function addItem(id: string, message: string): AddItemAction {
         return {
             type: ActionType.ADD_ITEM,
+            id,
             item: {message}
         }
     }
@@ -41,12 +48,15 @@ describe("redux spike", function () {
         };
     }
 
-    const EMPTY_STATE = {items: []};
+    const EMPTY_STATE: State = {items: [], itemById: {}};
 
-    const reducer = function (state, action: Action): State {
+    const reducer = function (state: State = EMPTY_STATE, action: Action): State {
         switch (action.type) {
             case ActionType.ADD_ITEM: {
-                return {items: [...state.items, action.item]}
+                return {
+                    items: [...state.items, action.id],
+                    itemById: {...state.itemById, [action.id]: action.item}
+                }
             }
             case ActionType.CLEAR_ITEMS: {
                 return EMPTY_STATE;
@@ -57,13 +67,11 @@ describe("redux spike", function () {
         }
     };
 
-    type ActionCreator = (any) => Action;
-
     //
 
     it("should create store", () => {
         // given
-        const initState: State = {items: []};
+        const initState: State = {items: [], itemById: {}};
 
         // when
         const store = createStore(reducer, initState);
@@ -74,27 +82,31 @@ describe("redux spike", function () {
 
     it("should add item", () => {
         // given
-        const initState: State = {items: []};
+        const initState: State = {items: [], itemById: {}};
 
         // when
         const store = createStore(reducer, initState);
 
         // then
-        store.dispatch(addItem("text"));
+        store.dispatch(addItem("1", "text"));
         expect(store.getState()).toEqual({
             items: [
-                {message: "text"}
-            ]
+                "1"
+            ],
+            itemById: {
+                "1": {message: "text"}
+            }
         });
     });
 
-    it("should remove all itmes upon Action.CLEAR_ITEMS", () => {
+    it("should remove all items upon Action.CLEAR_ITEMS", () => {
         // given
         const initState: State = {
-            items: [
-                {message: "some item"},
-                {message: "another item"},
-            ]
+            items: [],
+            itemById: {
+                "1": {message: "some item"},
+                "2": {message: "another item"},
+            }
         };
 
         // when
@@ -103,6 +115,6 @@ describe("redux spike", function () {
 
         // then
         store.dispatch(clearItems());
-        expect(store.getState()).toEqual({items: []});
+        expect(store.getState()).toEqual({items: [], itemById: {}});
     });
 });
