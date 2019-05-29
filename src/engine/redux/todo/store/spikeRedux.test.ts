@@ -34,9 +34,8 @@ describe("redux spike", function () {
         | AddItemAction
         | ClearItemsAction;
 
-    let generateId = () => {
-        return Math.random().toString();
-    };
+    // TODO: migrate to uuid/v4
+    let generateId = () => Math.random().toString();
 
     function addItem(message: string): AddItemAction {
         return {
