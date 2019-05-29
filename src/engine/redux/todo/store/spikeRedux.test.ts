@@ -34,10 +34,14 @@ describe("redux spike", function () {
         | AddItemAction
         | ClearItemsAction;
 
-    function addItem(id: string, message: string): AddItemAction {
+    let generateId = () => {
+        return Math.random().toString();
+    };
+
+    function addItem(message: string): AddItemAction {
         return {
             type: ActionType.ADD_ITEM,
-            id,
+            id: generateId(),
             item: {message}
         }
     }
@@ -82,19 +86,20 @@ describe("redux spike", function () {
 
     it("should add item", () => {
         // given
+        generateId = () => "someId";
         const initState: State = {items: [], itemById: {}};
 
         // when
         const store = createStore(reducer, initState);
 
         // then
-        store.dispatch(addItem("1", "text"));
+        store.dispatch(addItem("text"));
         expect(store.getState()).toEqual({
             items: [
-                "1"
+                "someId"
             ],
             itemById: {
-                "1": {message: "text"}
+                "someId": {message: "text"}
             }
         });
     });
