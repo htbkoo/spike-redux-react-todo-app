@@ -16,11 +16,17 @@ describe("redux spike", function () {
     }
 
     enum ActionType {
-        ADD_ITEM, CLEAR_ITEMS
+        ADD_ITEM, EDIT_ITEM, CLEAR_ITEMS
     }
 
     interface AddItemAction {
         type: ActionType.ADD_ITEM,
+        id: ItemId,
+        item: Item
+    }
+
+    interface EditItemAction {
+        type: ActionType.EDIT_ITEM,
         id: ItemId,
         item: Item
     }
@@ -31,7 +37,9 @@ describe("redux spike", function () {
 
     type Action =
         | AddItemAction
-        | ClearItemsAction;
+        | EditItemAction
+        | ClearItemsAction
+        ;
 
     // TODO: migrate to uuid/v4
     let generateId = () => Math.random().toString();
@@ -40,6 +48,14 @@ describe("redux spike", function () {
         return {
             type: ActionType.ADD_ITEM,
             id: generateId(),
+            item: {message}
+        }
+    }
+
+    function editItem(itemId: ItemId, message: string): EditItemAction {
+        return {
+            type: ActionType.EDIT_ITEM,
+            id: itemId,
             item: {message}
         }
     }
@@ -57,6 +73,12 @@ describe("redux spike", function () {
             case ActionType.ADD_ITEM: {
                 return {
                     items: state.items.push(action.id),
+                    itemById: state.itemById.set(action.id, action.item)
+                }
+            }
+            case ActionType.EDIT_ITEM: {
+                return {
+                    items: state.items,
                     itemById: state.itemById.set(action.id, action.item)
                 }
             }
@@ -99,6 +121,25 @@ describe("redux spike", function () {
                 items: List(["someId"]),
                 itemById: Map({"someId": {message: "text"}})
             });
+        });
+    });
+
+    describe("edit item", () => {
+        it("should be able to edit item", () => {
+            // given
+            const initState: State = {items: List(["someId"]), itemById: Map({"someId": {message: "text"}})};
+
+            // when
+            const store = createStore(reducer, initState);
+            store.dispatch(editItem("someId", "new text"));
+
+            // then
+            expect(store.getState()).toEqual({
+                items: List(["someId"]),
+                itemById: Map({"someId": {message: "new text"}})
+            });
+
+
         });
     });
 
