@@ -72,53 +72,59 @@ describe("redux spike", function () {
 
     //
 
-    it("should create store", () => {
-        // given
-        const initState: State = {items: [], itemById: {}};
+    describe("create store", () => {
+        it("should create store", () => {
+            // given
+            const initState: State = {items: [], itemById: {}};
 
-        // when
-        const store = createStore(reducer, initState);
+            // when
+            const store = createStore(reducer, initState);
 
-        // then
-        expect(store.getState()).toEqual(initState);
-    });
-
-    it("should add item", () => {
-        // given
-        generateId = () => "someId";
-        const initState: State = {items: [], itemById: {}};
-
-        // when
-        const store = createStore(reducer, initState);
-
-        // then
-        store.dispatch(addItem("text"));
-        expect(store.getState()).toEqual({
-            items: [
-                "someId"
-            ],
-            itemById: {
-                "someId": {message: "text"}
-            }
+            // then
+            expect(store.getState()).toEqual(initState);
         });
     });
 
-    it("should remove all items upon Action.CLEAR_ITEMS", () => {
-        // given
-        const initState: State = {
-            items: [],
-            itemById: {
-                "1": {message: "some item"},
-                "2": {message: "another item"},
-            }
-        };
+    describe("add item", () => {
+        it("should add item", () => {
+            // given
+            generateId = () => "someId";
+            const initState: State = {items: [], itemById: {}};
 
-        // when
-        const store = createStore(reducer, initState);
-        expect(store.getState()).toEqual(initState);
+            // when
+            const store = createStore(reducer, initState);
+            store.dispatch(addItem("text"));
 
-        // then
-        store.dispatch(clearItems());
-        expect(store.getState()).toEqual({items: [], itemById: {}});
+            // then
+            expect(store.getState()).toEqual({
+                items: [
+                    "someId"
+                ],
+                itemById: {
+                    "someId": {message: "text"}
+                }
+            });
+        });
+    });
+
+    describe("remove all", () => {
+        it("should remove all items upon Action.CLEAR_ITEMS", () => {
+            // given
+            const initState: State = {
+                items: [],
+                itemById: {
+                    "1": {message: "some item"},
+                    "2": {message: "another item"},
+                }
+            };
+
+            // when
+            const store = createStore(reducer, initState);
+            expect(store.getState()).toEqual(initState);
+
+            // then
+            store.dispatch(clearItems());
+            expect(store.getState()).toEqual({items: [], itemById: {}});
+        });
     });
 });
