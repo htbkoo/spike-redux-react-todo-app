@@ -1,4 +1,5 @@
 import {createStore} from "redux";
+import {List, Map} from "immutable";
 
 describe("redux spike", function () {
     // PROD
@@ -6,14 +7,12 @@ describe("redux spike", function () {
     type ItemId = string;
 
     interface Item {
-        message: string
+        message: Readonly<string>
     }
 
     interface State {
-        items: ItemId[],
-        itemById: {
-            [id: string]: Item
-        }
+        items: List<ItemId>,
+        itemById: Map<ItemId, Item>,
     }
 
     enum ActionType {
@@ -51,14 +50,14 @@ describe("redux spike", function () {
         };
     }
 
-    const EMPTY_STATE: State = {items: [], itemById: {}};
+    const EMPTY_STATE: State = {items: List(), itemById: Map()};
 
     const reducer = function (state: State = EMPTY_STATE, action: Action): State {
         switch (action.type) {
             case ActionType.ADD_ITEM: {
                 return {
-                    items: [...state.items, action.id],
-                    itemById: {...state.itemById, [action.id]: action.item}
+                    items: state.items.push(action.id),
+                    itemById: state.itemById.set(action.id, action.item)
                 }
             }
             case ActionType.CLEAR_ITEMS: {
@@ -75,7 +74,7 @@ describe("redux spike", function () {
     describe("create store", () => {
         it("should create store", () => {
             // given
-            const initState: State = {items: [], itemById: {}};
+            const initState: State = emptyInitState();
 
             // when
             const store = createStore(reducer, initState);
@@ -89,7 +88,7 @@ describe("redux spike", function () {
         it("should add item", () => {
             // given
             generateId = () => "someId";
-            const initState: State = {items: [], itemById: {}};
+            const initState: State = emptyInitState();
 
             // when
             const store = createStore(reducer, initState);
@@ -97,12 +96,8 @@ describe("redux spike", function () {
 
             // then
             expect(store.getState()).toEqual({
-                items: [
-                    "someId"
-                ],
-                itemById: {
-                    "someId": {message: "text"}
-                }
+                items: List(["someId"]),
+                itemById: Map({"someId": {message: "text"}})
             });
         });
     });
@@ -111,11 +106,11 @@ describe("redux spike", function () {
         it("should remove all items upon Action.CLEAR_ITEMS", () => {
             // given
             const initState: State = {
-                items: [],
-                itemById: {
+                items: List(),
+                itemById: Map({
                     "1": {message: "some item"},
                     "2": {message: "another item"},
-                }
+                })
             };
 
             // when
@@ -124,7 +119,11 @@ describe("redux spike", function () {
 
             // then
             store.dispatch(clearItems());
-            expect(store.getState()).toEqual({items: [], itemById: {}});
+            expect(store.getState()).toEqual({items: List(), itemById: Map()});
         });
     });
+
+    function emptyInitState(): State {
+        return {items: List(), itemById: Map()};
+    }
 });
