@@ -1,5 +1,4 @@
 import {createStore} from "redux";
-import {List, Map} from "immutable";
 import {State} from "../models/common";
 import {reducer} from "../reducers/reducers";
 import {addItem, clearItems, editItem} from "../actions/ActionCreators";
@@ -29,8 +28,8 @@ describe("redux spike", function () {
 
             // then
             expect(store.getState()).toEqual({
-                items: List(["0"]),
-                itemById: Map({"0": {message: "text"}}),
+                items: ["0"],
+                itemById: {"0": {message: "text"}},
                 itemIdSeq: 1
             });
         });
@@ -40,8 +39,8 @@ describe("redux spike", function () {
         it("should be able to edit item", () => {
             // given
             const initState: State = {
-                items: List(["someId"]),
-                itemById: Map({"someId": {message: "text"}}),
+                items: ["someId"],
+                itemById: {"someId": {message: "text"}},
                 itemIdSeq: 1
             };
 
@@ -51,8 +50,8 @@ describe("redux spike", function () {
 
             // then
             expect(store.getState()).toEqual({
-                items: List(["someId"]),
-                itemById: Map({"someId": {message: "new text"}}),
+                items: ["someId"],
+                itemById: {"someId": {message: "new text"}},
                 itemIdSeq: 1
             });
 
@@ -64,11 +63,11 @@ describe("redux spike", function () {
         it("should remove all items upon Action.CLEAR_ITEMS", () => {
             // given
             const initState: State = {
-                items: List(),
-                itemById: Map({
+                items: [],
+                itemById: {
                     "1": {message: "some item"},
                     "2": {message: "another item"},
-                }),
+                },
                 itemIdSeq: 3
             };
 
@@ -78,11 +77,11 @@ describe("redux spike", function () {
 
             // then
             store.dispatch(clearItems());
-            expect(store.getState()).toEqual({items: List(), itemById: Map(), itemIdSeq: 0});
+            expect(store.getState()).toEqual({items: [], itemById: {}, itemIdSeq: 0});
         });
     });
 
     function emptyInitState(): State {
-        return {items: List(), itemById: Map(), itemIdSeq: 0};
+        return {items: [], itemById: {}, itemIdSeq: 0};
     }
 });

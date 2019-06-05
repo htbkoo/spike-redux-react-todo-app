@@ -1,5 +1,3 @@
-import {List, Map} from "immutable";
-
 export type ItemId = string;
 
 export interface Item {
@@ -7,7 +5,9 @@ export interface Item {
 }
 
 export interface State {
-    items: List<ItemId>,
-    itemById: Map<ItemId, Item>,
+    items: ReadonlyArray<ItemId>,
+    itemById: Readonly<{
+        [ItemId: string]: Item
+    }>,
     itemIdSeq: Readonly<number>
 }
