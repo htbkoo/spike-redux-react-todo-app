@@ -3,7 +3,7 @@ import produce from "immer";
 import {State} from "../models/common";
 import {Action, ActionType} from "../actions/Action";
 
-const EMPTY_STATE: State = {items: [], itemById: {}, itemIdSeq: 0};
+const EMPTY_STATE: State = Object.freeze({items: [], itemById: {}, itemIdSeq: 0});
 
 export const reducer = function (state: State = EMPTY_STATE, action: Action): State {
     switch (action.type) {
