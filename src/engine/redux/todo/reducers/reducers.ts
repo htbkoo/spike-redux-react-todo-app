@@ -13,13 +13,11 @@ export const reducer = function (state: State = EMPTY_STATE, action: Action): St
                 draft.items.push(id);
                 draft.itemIdSeq = draft.itemIdSeq + 1;
                 draft.itemById[id] = action.item;
-                return draft;
             });
         }
         case ActionType.EDIT_ITEM: {
             return produce(state, draft => {
                 draft.itemById[action.id] = action.item;
-                return draft;
             });
         }
         case ActionType.CLEAR_ITEMS: {
