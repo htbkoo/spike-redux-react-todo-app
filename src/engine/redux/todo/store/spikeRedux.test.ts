@@ -1,95 +1,14 @@
 import {createStore} from "redux";
 import {List, Map} from "immutable";
+import {State} from "../models/common";
+import {reducer} from "../reducers/reducers";
+import {addItem, clearItems, editItem} from "../actions/ActionCreators";
 
 describe("redux spike", function () {
     // PROD
 
-    type ItemId = string;
-
-    interface Item {
-        message: Readonly<string>
-    }
-
-    interface State {
-        items: List<ItemId>,
-        itemById: Map<ItemId, Item>,
-    }
-
-    enum ActionType {
-        ADD_ITEM, EDIT_ITEM, CLEAR_ITEMS
-    }
-
-    interface AddItemAction {
-        type: ActionType.ADD_ITEM,
-        id: ItemId,
-        item: Item
-    }
-
-    interface EditItemAction {
-        type: ActionType.EDIT_ITEM,
-        id: ItemId,
-        item: Item
-    }
-
-    interface ClearItemsAction {
-        type: ActionType.CLEAR_ITEMS
-    }
-
-    type Action =
-        | AddItemAction
-        | EditItemAction
-        | ClearItemsAction
-        ;
-
     // TODO: migrate to uuid/v4
     let generateId = () => Math.random().toString();
-
-    function addItem(message: string): AddItemAction {
-        return {
-            type: ActionType.ADD_ITEM,
-            id: generateId(),
-            item: {message}
-        }
-    }
-
-    function editItem(itemId: ItemId, message: string): EditItemAction {
-        return {
-            type: ActionType.EDIT_ITEM,
-            id: itemId,
-            item: {message}
-        }
-    }
-
-    function clearItems(): ClearItemsAction {
-        return {
-            type: ActionType.CLEAR_ITEMS
-        };
-    }
-
-    const EMPTY_STATE: State = {items: List(), itemById: Map()};
-
-    const reducer = function (state: State = EMPTY_STATE, action: Action): State {
-        switch (action.type) {
-            case ActionType.ADD_ITEM: {
-                return {
-                    items: state.items.push(action.id),
-                    itemById: state.itemById.set(action.id, action.item)
-                }
-            }
-            case ActionType.EDIT_ITEM: {
-                return {
-                    items: state.items,
-                    itemById: state.itemById.set(action.id, action.item)
-                }
-            }
-            case ActionType.CLEAR_ITEMS: {
-                return EMPTY_STATE;
-            }
-            default: {
-                return state;
-            }
-        }
-    };
 
     //
 
@@ -118,8 +37,9 @@ describe("redux spike", function () {
 
             // then
             expect(store.getState()).toEqual({
-                items: List(["someId"]),
-                itemById: Map({"someId": {message: "text"}})
+                items: List(["0"]),
+                itemById: Map({"0": {message: "text"}}),
+                itemIdSeq: 1
             });
         });
     });
@@ -127,7 +47,11 @@ describe("redux spike", function () {
     describe("edit item", () => {
         it("should be able to edit item", () => {
             // given
-            const initState: State = {items: List(["someId"]), itemById: Map({"someId": {message: "text"}})};
+            const initState: State = {
+                items: List(["someId"]),
+                itemById: Map({"someId": {message: "text"}}),
+                itemIdSeq: 1
+            };
 
             // when
             const store = createStore(reducer, initState);
@@ -136,7 +60,8 @@ describe("redux spike", function () {
             // then
             expect(store.getState()).toEqual({
                 items: List(["someId"]),
-                itemById: Map({"someId": {message: "new text"}})
+                itemById: Map({"someId": {message: "new text"}}),
+                itemIdSeq: 1
             });
 
 
@@ -151,7 +76,8 @@ describe("redux spike", function () {
                 itemById: Map({
                     "1": {message: "some item"},
                     "2": {message: "another item"},
-                })
+                }),
+                itemIdSeq: 3
             };
 
             // when
@@ -160,11 +86,11 @@ describe("redux spike", function () {
 
             // then
             store.dispatch(clearItems());
-            expect(store.getState()).toEqual({items: List(), itemById: Map()});
+            expect(store.getState()).toEqual({items: List(), itemById: Map(), itemIdSeq: 0});
         });
     });
 
     function emptyInitState(): State {
-        return {items: List(), itemById: Map()};
+        return {items: List(), itemById: Map(), itemIdSeq: 0};
     }
 });
