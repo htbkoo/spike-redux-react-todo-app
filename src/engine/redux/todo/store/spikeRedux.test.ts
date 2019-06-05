@@ -5,13 +5,6 @@ import {reducer} from "../reducers/reducers";
 import {addItem, clearItems, editItem} from "../actions/ActionCreators";
 
 describe("redux spike", function () {
-    // PROD
-
-    // TODO: migrate to uuid/v4
-    let generateId = () => Math.random().toString();
-
-    //
-
     describe("create store", () => {
         it("should create store", () => {
             // given
@@ -28,7 +21,6 @@ describe("redux spike", function () {
     describe("add item", () => {
         it("should add item", () => {
             // given
-            generateId = () => "someId";
             const initState: State = emptyInitState();
 
             // when
