@@ -17,6 +17,7 @@
     "redux-starter-kit": "^0.5.1",
     "typescript": "3.4.5"
   },
+  "homepage": "https://htbkoo.github.io/spike-redux-react-todo-app/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
