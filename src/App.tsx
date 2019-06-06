@@ -4,12 +4,12 @@ import {connect} from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
+import {TextField, Typography} from "@material-ui/core";
 
 import {State} from "./engine/redux/todo/models/common";
 import {addItem, clearItems, editItem} from "./engine/redux/todo/actions/ActionCreators";
 
 import './App.css';
-import {TextField} from "@material-ui/core";
 
 const mapStateToProps = ({items, itemById,}: State /*, ownProps*/) => {
     return {
@@ -30,9 +30,19 @@ interface AppProps {
 
 const App: React.FC<AppProps> = props => {
     return (
-        <div className="App">
+        <div className="App" style={{margin: "2.5%",}}>
             <div>
-                Simple react-redux todo list
+                <Typography variant="h3" gutterBottom>
+                    Simple react-redux todo list
+                </Typography>
+            </div>
+            <div>
+                <Fab color="primary" aria-label="Add" onClick={() => props.addItem("")} style={{margin: "1%"}}>
+                    <AddIcon/>
+                </Fab>
+                <Fab aria-label="Delete" onClick={props.clearItems} style={{margin: "1%"}}>
+                    <DeleteIcon/>
+                </Fab>
             </div>
             <div style={{display: "flex", flexDirection: "column", marginLeft: "20%", marginRight: "20%",}}>
                 {props.items.map(id => (
@@ -49,14 +59,6 @@ const App: React.FC<AppProps> = props => {
                         />
                     )
                 )}
-            </div>
-            <div>
-                <Fab color="primary" aria-label="Add" onClick={() => props.addItem("")} style={{margin: "1%"}}>
-                    <AddIcon/>
-                </Fab>
-                <Fab aria-label="Delete" onClick={props.clearItems} style={{margin: "1%"}}>
-                    <DeleteIcon/>
-                </Fab>
             </div>
         </div>
     );
