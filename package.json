@@ -39,6 +39,8 @@
     ]
   },
   "devDependencies": {
-    "@types/react-redux": "^7.0.9"
+    "@types/react-redux": "^7.0.9",
+    "move-cli": "^1.2.1",
+    "rimraf": "^2.6.3"
   }
 }
