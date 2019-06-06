@@ -1,9 +1,9 @@
 import {createStore} from "redux";
 import {State} from "../models/common";
 import {reducer} from "../reducers/reducers";
-import {addItem, clearItems, editItem} from "../actions/ActionCreators";
+import {addItem, clearItems, editItem, toggleItem} from "../actions/ActionCreators";
 
-describe("redux spike", function () {
+describe("Redux engine", function () {
     describe("create store", () => {
         it("should create store", () => {
             // given
@@ -52,6 +52,30 @@ describe("redux spike", function () {
             expect(store.getState()).toEqual({
                 items: ["someId"],
                 itemById: {"someId": {message: "new text"}},
+                itemIdSeq: 1
+            });
+
+
+        });
+    });
+
+    describe("toggle item", () => {
+        it("should be able to toggle item to completed", () => {
+            // given
+            const initState: State = {
+                items: ["someId"],
+                itemById: {"someId": {message: "text"}},
+                itemIdSeq: 1
+            };
+
+            // when
+            const store = createStore(reducer, initState);
+            store.dispatch(toggleItem("someId"));
+
+            // then
+            expect(store.getState()).toEqual({
+                items: ["someId"],
+                itemById: {"someId": {message: "text", completed: true}},
                 itemIdSeq: 1
             });
 

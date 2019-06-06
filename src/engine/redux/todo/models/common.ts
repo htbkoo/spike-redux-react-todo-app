@@ -1,7 +1,8 @@
 export type ItemId = string;
 
 export interface Item {
-    message: Readonly<string>
+    message: Readonly<string>,
+    completed?: boolean
 }
 
 export interface State {

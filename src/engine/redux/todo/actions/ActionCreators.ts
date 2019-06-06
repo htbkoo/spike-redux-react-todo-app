@@ -1,4 +1,4 @@
-import {ActionType, AddItemAction, ClearItemsAction, EditItemAction} from "./Action";
+import {ActionType, AddItemAction, ClearItemsAction, EditItemAction, ToggleItemAction} from "./Action";
 import {ItemId} from "../models/common";
 
 export function addItem(message: string): AddItemAction {
@@ -13,6 +13,13 @@ export function editItem(itemId: ItemId, message: string): EditItemAction {
         type: ActionType.EDIT_ITEM,
         id: itemId,
         item: {message}
+    }
+}
+
+export function toggleItem(itemId: ItemId): ToggleItemAction {
+    return {
+        type: ActionType.TOGGLE_ITEM,
+        id: itemId,
     }
 }
 

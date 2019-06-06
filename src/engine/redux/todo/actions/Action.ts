@@ -1,7 +1,7 @@
 import {Item, ItemId} from "../models/common";
 
 export enum ActionType {
-    ADD_ITEM, EDIT_ITEM, CLEAR_ITEMS
+    ADD_ITEM, EDIT_ITEM, TOGGLE_ITEM, CLEAR_ITEMS
 }
 
 export interface AddItemAction {
@@ -15,6 +15,11 @@ export interface EditItemAction {
     item: Item
 }
 
+export interface ToggleItemAction {
+    type: ActionType.TOGGLE_ITEM,
+    id: ItemId,
+}
+
 export interface ClearItemsAction {
     type: ActionType.CLEAR_ITEMS
 }
@@ -22,5 +27,6 @@ export interface ClearItemsAction {
 export type Action =
     | AddItemAction
     | EditItemAction
+    | ToggleItemAction
     | ClearItemsAction
     ;
