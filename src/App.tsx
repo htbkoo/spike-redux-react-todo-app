@@ -1,10 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import './App.css';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import {State} from "./engine/redux/todo/models/common";
 import {addItem, clearItems, editItem} from "./engine/redux/todo/actions/ActionCreators";
+
+import './App.css';
 
 const mapStateToProps = ({items, itemById,}: State /*, ownProps*/) => {
     return {
@@ -35,15 +39,23 @@ const App: React.FC<AppProps> = props => {
                             key={id}
                             onChange={event => props.editItem(id, event.target.value)}
                             value={props.itemById[id].message}
+                            style={{margin: "1%"}}
                         />
                     )
                 )}
             </div>
             <div>
-                <button onClick={() => props.addItem("")}>+</button>
+
+                <Fab color="primary" aria-label="Add" onClick={() => props.addItem("")}>
+                    <AddIcon/>
+                </Fab>
+
+                {/*<button onClick={() => props.addItem("")}>+</button>*/}
             </div>
             <div>
-                <button onClick={props.clearItems}>Clear All</button>
+                <Fab aria-label="Delete" onClick={props.clearItems}>
+                    <DeleteIcon/>
+                </Fab>
             </div>
         </div>
     );
