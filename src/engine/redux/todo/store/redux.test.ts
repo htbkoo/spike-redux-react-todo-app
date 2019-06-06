@@ -78,8 +78,26 @@ describe("Redux engine", function () {
                 itemById: {"someId": {message: "text", completed: true}},
                 itemIdSeq: 1
             });
+        });
 
+        it("should be able to toggle item from completed back to incompleted", () => {
+            // given
+            const initState: State = {
+                items: ["someId"],
+                itemById: {"someId": {message: "text", completed: true}},
+                itemIdSeq: 1
+            };
 
+            // when
+            const store = createStore(reducer, initState);
+            store.dispatch(toggleItem("someId"));
+
+            // then
+            expect(store.getState()).toEqual({
+                items: ["someId"],
+                itemById: {"someId": {message: "text", completed: false}},
+                itemIdSeq: 1
+            });
         });
     });
 

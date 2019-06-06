@@ -22,7 +22,8 @@ export const reducer = function (state: State = EMPTY_STATE, action: Action): St
         }
         case ActionType.TOGGLE_ITEM: {
             return produce(state, draft => {
-                draft.itemById[action.id].completed = true;
+                const id = action.id;
+                draft.itemById[id].completed = !state.itemById[id].completed;
             });
         }
         case ActionType.CLEAR_ITEMS: {
