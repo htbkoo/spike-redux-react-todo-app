@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "523de242c2bfe5e107a37cfadfe0716f",
+    "revision": "612d08b9c21aff9619010adcbe47bed2",
     "url": "/spike-redux-react-todo-app/index.html"
   },
   {
-    "revision": "47937b38cd0212cf289e",
+    "revision": "cfefb5078df04bb58165",
     "url": "/spike-redux-react-todo-app/static/css/main.75d5fcbd.chunk.css"
   },
   {
-    "revision": "20bba2628775f2dec444",
-    "url": "/spike-redux-react-todo-app/static/js/2.3874259c.chunk.js"
+    "revision": "788058ecfead9a3fbab2",
+    "url": "/spike-redux-react-todo-app/static/js/2.935d6c42.chunk.js"
   },
   {
-    "revision": "47937b38cd0212cf289e",
-    "url": "/spike-redux-react-todo-app/static/js/main.c48a5029.chunk.js"
+    "revision": "cfefb5078df04bb58165",
+    "url": "/spike-redux-react-todo-app/static/js/main.e51d7def.chunk.js"
   },
   {
     "revision": "1d25a0af69a49d399ca5",
