@@ -24,7 +24,7 @@ type DispatchProps = typeof mapDispatchToProps;
 
 const App: React.FC<AppProps & DispatchProps> = props => {
     return (
-        <div className="App" style={{margin: "2.5%",}}>
+        <div className="App" style={{margin: "2.5%", marginBottom: "5%", }}>
             <div>
                 <Typography variant="h3" gutterBottom>
                     Simple react-redux todo list
