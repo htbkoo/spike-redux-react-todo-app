@@ -46,17 +46,19 @@ const App: React.FC<AppProps> = props => {
             </div>
             <div style={{display: "flex", flexDirection: "column", marginLeft: "20%", marginRight: "20%",}}>
                 {props.items.map(id => (
-                        <TextField
-                            id="outlined-with-placeholder"
-                            label={`Todo-${id}`}
-                            placeholder="Content"
-                            margin="normal"
-                            variant="outlined"
-                            key={id}
-                            onChange={event => props.editItem(id, event.target.value)}
-                            value={props.itemById[id].message}
-                            style={{margin: "1%"}}
-                        />
+                        <div style={{display: "flex"}}>
+                            <TextField
+                                id="outlined-with-placeholder"
+                                label={`Todo-${id}`}
+                                placeholder="Content"
+                                margin="normal"
+                                variant="outlined"
+                                key={id}
+                                onChange={event => props.editItem(id, event.target.value)}
+                                value={props.itemById[id].message}
+                                style={{flex: 1}}
+                            />
+                        </div>
                     )
                 )}
             </div>
