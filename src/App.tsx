@@ -6,8 +6,8 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {Checkbox, TextField, Typography} from "@material-ui/core";
 
-import {State} from "./engine/redux/todo/models/common";
-import {addItem, clearItems, editItem} from "./engine/redux/todo/actions/ActionCreators";
+import {Item, ItemId, State} from "./engine/redux/todo/models/common";
+import {addItem, clearItems, editItem, toggleItem} from "./engine/redux/todo/actions/ActionCreators";
 
 import './App.css';
 
@@ -18,7 +18,7 @@ const mapStateToProps = ({items, itemById,}: State /*, ownProps*/) => {
     }
 };
 
-const mapDispatchToProps = {addItem, clearItems, editItem};
+const mapDispatchToProps = {addItem, clearItems, editItem, toggleItem};
 
 interface AppProps {
     items: State["items"],
@@ -26,6 +26,7 @@ interface AppProps {
     addItem: typeof addItem,
     clearItems: typeof clearItems,
     editItem: typeof editItem,
+    toggleItem: typeof toggleItem,
 }
 
 const App: React.FC<AppProps> = props => {
@@ -46,33 +47,50 @@ const App: React.FC<AppProps> = props => {
             </div>
             <div style={{display: "flex", flexDirection: "column", marginLeft: "20%", marginRight: "20%",}}>
                 {props.items.map(id => (
-                        <div style={{display: "flex", alignItems: "center",}}>
-                            <Checkbox
-                                checked={true}
-                                value=""
-                                color="primary"
-                                inputProps={{
-                                    'aria-label': 'isCompleted',
-                                }}
-                            />
-                            <TextField
-                                id="outlined-with-placeholder"
-                                label={`Todo-${id}`}
-                                placeholder="Content"
-                                margin="normal"
-                                variant="outlined"
-                                key={id}
-                                onChange={event => props.editItem(id, event.target.value)}
-                                value={props.itemById[id].message}
-                                style={{flex: 1}}
-                            />
-                        </div>
+                        <TodoItemComponent
+                            id={id}
+                            item={props.itemById[id]}
+                            editItem={props.editItem}
+                            toggleItem={props.toggleItem}
+                        />
                     )
                 )}
             </div>
         </div>
     );
 };
+
+interface TodoItemComponentProps {
+    id: ItemId,
+    item: Item,
+    editItem: AppProps["editItem"],
+    toggleItem: AppProps["toggleItem"],
+}
+
+function TodoItemComponent({id, editItem, toggleItem, item}: TodoItemComponentProps) {
+    return (
+        <div style={{display: "flex", alignItems: "center",}}>
+            <Checkbox
+                checked={item.completed}
+                value=""
+                color="primary"
+                inputProps={{'aria-label': 'isCompleted',}}
+                onClick={() => toggleItem(id)}
+            />
+            <TextField
+                id="outlined-with-placeholder"
+                label={`Todo-${id}`}
+                placeholder="Content"
+                margin="normal"
+                variant="outlined"
+                key={id}
+                onChange={event => editItem(id, event.target.value)}
+                value={item.message}
+                style={{flex: 1}}
+            />
+        </div>
+    );
+}
 
 export {App};
 
