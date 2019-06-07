@@ -11,25 +11,18 @@ import {addItem, clearItems, editItem, toggleItem} from "./engine/redux/todo/act
 
 import './App.css';
 
-const mapStateToProps = ({items, itemById,}: State /*, ownProps*/) => {
-    return {
-        items,
-        itemById
-    }
-};
+const mapStateToProps = ({items, itemById,}: State /*, ownProps*/) => ({items, itemById});
 
 const mapDispatchToProps = {addItem, clearItems, editItem, toggleItem};
 
 interface AppProps {
     items: State["items"],
     itemById: State["itemById"],
-    addItem: typeof addItem,
-    clearItems: typeof clearItems,
-    editItem: typeof editItem,
-    toggleItem: typeof toggleItem,
 }
 
-const App: React.FC<AppProps> = props => {
+type DispatchProps = typeof mapDispatchToProps;
+
+const App: React.FC<AppProps & DispatchProps> = props => {
     return (
         <div className="App" style={{margin: "2.5%",}}>
             <div>
@@ -63,8 +56,8 @@ const App: React.FC<AppProps> = props => {
 interface TodoItemComponentProps {
     id: ItemId,
     item: Item,
-    editItem: AppProps["editItem"],
-    toggleItem: AppProps["toggleItem"],
+    editItem: DispatchProps["editItem"],
+    toggleItem: DispatchProps["toggleItem"],
 }
 
 function TodoItemComponent({id, editItem, toggleItem, item}: TodoItemComponentProps) {
