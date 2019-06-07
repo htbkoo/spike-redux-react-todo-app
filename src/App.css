@@ -31,3 +31,12 @@
     transform: rotate(360deg);
   }
 }
+
+.credit{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 1%;
+  background-color: antiquewhite;
+  z-index: 100000000;
+}
