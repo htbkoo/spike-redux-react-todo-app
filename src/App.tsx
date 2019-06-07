@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-import {TextField, Typography} from "@material-ui/core";
+import {Checkbox, TextField, Typography} from "@material-ui/core";
 
 import {State} from "./engine/redux/todo/models/common";
 import {addItem, clearItems, editItem} from "./engine/redux/todo/actions/ActionCreators";
@@ -46,7 +46,15 @@ const App: React.FC<AppProps> = props => {
             </div>
             <div style={{display: "flex", flexDirection: "column", marginLeft: "20%", marginRight: "20%",}}>
                 {props.items.map(id => (
-                        <div style={{display: "flex"}}>
+                        <div style={{display: "flex", alignItems: "center",}}>
+                            <Checkbox
+                                checked={true}
+                                value=""
+                                color="primary"
+                                inputProps={{
+                                    'aria-label': 'isCompleted',
+                                }}
+                            />
                             <TextField
                                 id="outlined-with-placeholder"
                                 label={`Todo-${id}`}
