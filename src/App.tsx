@@ -24,7 +24,7 @@ type DispatchProps = typeof mapDispatchToProps;
 
 const App: React.FC<AppProps & DispatchProps> = props => {
     return (
-        <div className="App" style={{margin: "2.5%", marginBottom: "5%", }}>
+        <div className="App" style={{margin: "2.5%", marginBottom: "5%",}}>
             <div>
                 <Typography variant="h3" gutterBottom>
                     Simple react-redux todo list
@@ -61,6 +61,8 @@ interface TodoItemComponentProps {
 }
 
 function TodoItemComponent({id, editItem, toggleItem, item}: TodoItemComponentProps) {
+    const optionalStyleStrikeThroughForCompleted = item.completed ? {textDecoration: "line-through",} : {};
+
     return (
         <div style={{display: "flex", alignItems: "center",}}>
             <Checkbox
@@ -79,7 +81,9 @@ function TodoItemComponent({id, editItem, toggleItem, item}: TodoItemComponentPr
                 key={id}
                 onChange={event => editItem(id, event.target.value)}
                 value={item.message}
-                style={{flex: 1}}
+                style={{flex: 1,}}
+                inputProps={{style: optionalStyleStrikeThroughForCompleted}}
+                disabled={item.completed}
             />
         </div>
     );
