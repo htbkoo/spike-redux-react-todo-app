@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/spike-redux-react-todo-app/static/css/main.8acc45ee.chunk.css",
-    "main.js": "/spike-redux-react-todo-app/static/js/main.9167d5ca.chunk.js",
-    "main.js.map": "/spike-redux-react-todo-app/static/js/main.9167d5ca.chunk.js.map",
+    "main.js": "/spike-redux-react-todo-app/static/js/main.4b87a409.chunk.js",
+    "main.js.map": "/spike-redux-react-todo-app/static/js/main.4b87a409.chunk.js.map",
     "runtime~main.js": "/spike-redux-react-todo-app/static/js/runtime~main.cce148a6.js",
     "runtime~main.js.map": "/spike-redux-react-todo-app/static/js/runtime~main.cce148a6.js.map",
     "static/js/2.935d6c42.chunk.js": "/spike-redux-react-todo-app/static/js/2.935d6c42.chunk.js",
     "static/js/2.935d6c42.chunk.js.map": "/spike-redux-react-todo-app/static/js/2.935d6c42.chunk.js.map",
     "index.html": "/spike-redux-react-todo-app/index.html",
-    "precache-manifest.0fdacc45f4c0de21ad4ce430256c46ad.js": "/spike-redux-react-todo-app/precache-manifest.0fdacc45f4c0de21ad4ce430256c46ad.js",
+    "precache-manifest.eec0152373610e62b03df231a6856040.js": "/spike-redux-react-todo-app/precache-manifest.eec0152373610e62b03df231a6856040.js",
     "service-worker.js": "/spike-redux-react-todo-app/service-worker.js",
     "static/css/main.8acc45ee.chunk.css.map": "/spike-redux-react-todo-app/static/css/main.8acc45ee.chunk.css.map"
   }
